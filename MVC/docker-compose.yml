@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: todo
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./db/migration:/docker-entrypoint-initdb.d
+    ports:
+      - "3306"
+
+  server:
+    image: go
+    build: ./server
+    environment:
+      PORT: 8080
+      DB_DATASOURCE: user:password@tcp(db:3306)/todo?parseTime=true&charset=utf8mb4&interpolateParams=true
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    restart: always
