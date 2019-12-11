@@ -18,7 +18,6 @@ import (
 )
 
 func main() {
-
 	addr := os.Getenv("PORT")
 	datasource := os.Getenv("DB_DATASOURCE")
 
@@ -41,11 +40,11 @@ func main() {
 
 	log.SetFlags(log.Ldate + log.Ltime + log.Lshortfile)
 	log.SetOutput(os.Stdout)
-	log.Printf("Listening on port %s", addr)
 
 	err = http.ListenAndServe(fmt.Sprintf(":%s", addr), handlers.CombinedLoggingHandler(os.Stdout, r))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
+	log.Printf("Listening on port %s", addr)
 }
