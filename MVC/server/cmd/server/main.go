@@ -18,9 +18,8 @@ import (
 )
 
 func main() {
-	log.SetFlags(log.Ldate + log.Ltime + log.Lshortfile)
-	log.SetOutput(os.Stdout)
 
+	addr := os.Getenv("PORT")
 	datasource := os.Getenv("DB_DATASOURCE")
 
 	db, err := sql.Open("mysql", datasource)
@@ -40,8 +39,10 @@ func main() {
 	r.Methods(http.MethodPut).Path("/todo/{id}").HandlerFunc(todoCtrl.Update)
 	r.Methods(http.MethodDelete).Path("/todo/{id}").HandlerFunc(todoCtrl.Delete)
 
-	addr := os.Getenv("PORT")
+	log.SetFlags(log.Ldate + log.Ltime + log.Lshortfile)
+	log.SetOutput(os.Stdout)
 	log.Printf("Listening on port %s", addr)
+
 	err = http.ListenAndServe(fmt.Sprintf(":%s", addr), handlers.CombinedLoggingHandler(os.Stdout, r))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
