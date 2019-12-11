@@ -1,5 +1,23 @@
 # MVCパターン
 
+```
+server
+├── Dockerfile
+├── cmd
+│   └── server
+│       └── main.go
+├── controller
+│   └── todo.go
+├── go.mod
+├── go.sum
+├── httputil
+│   └── error.go
+├── model
+│   └── todo.go
+└── view
+    └── json.go
+```
+
 ## Model
 
 ViewやControllerに置くべきでないロジックを実装
