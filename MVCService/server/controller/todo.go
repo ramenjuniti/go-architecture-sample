@@ -98,6 +98,10 @@ func (t *Todo) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = service.UpdateTodo(t.dbm, reqTodo)
+	if err != nil {
+		view.RenderJSON(w, http.StatusBadRequest, &httputil.HTTPError{Message: err.Error()})
+		return
+	}
 
 	view.RenderJSON(w, http.StatusOK, reqTodo)
 }
@@ -120,6 +124,10 @@ func (t *Todo) Delete(w http.ResponseWriter, r *http.Request) {
 	reqTodo := &model.Todo{ID: id}
 
 	err = service.DeleteTodo(t.dbm, reqTodo)
+	if err != nil {
+		view.RenderJSON(w, http.StatusBadRequest, &httputil.HTTPError{Message: err.Error()})
+		return
+	}
 
 	view.RenderJSON(w, http.StatusNoContent, nil)
 }
